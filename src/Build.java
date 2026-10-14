@@ -93,6 +93,25 @@ public class Build {
    * @return true if the destination is reachable from the start, false otherwise
    */
   public static boolean canReach(Airport start, Airport destination) {
+
+    return canReach(start, destination, new HashSet<>());
+}
+
+private static boolean canReach(Airport start, Airport destination, Set<Airport> visited) {
+    if (start == destination) return true;
+
+    if (start == null || visited.contains(start)) return false;
+
+    visited.add(start);
+
+    // Check each connected airport
+    for (Airport next : start.getOutboundFlights()) {
+        if (canReach(next, destination, visited)) {
+            return true;
+        }
+    }
+
+
     return false;
   }
 
